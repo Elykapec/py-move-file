@@ -16,10 +16,11 @@ def move_file(command: str) -> None:
     except FileNotFoundError:
         return
 
+    is_directory = destination.endswith(("/", "\\"))
     destination = os.path.normpath(destination)
 
-    if destination.endswith(os.path.sep):
-        dir_path = destination.rstrip(os.path.sep)
+    if is_directory:
+        dir_path = destination
         file_name = os.path.basename(source)
         destination_file = os.path.join(dir_path, file_name)
     else:
@@ -27,8 +28,8 @@ def move_file(command: str) -> None:
         destination_file = destination
 
     if dir_path:
-        dir_parts = dir_path.split(os.path.sep)
         current_path = ""
+        dir_parts = dir_path.split(os.path.sep)
 
         for part in dir_parts:
             current_path = os.path.join(current_path, part)
